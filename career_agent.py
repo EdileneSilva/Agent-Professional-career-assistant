@@ -7,13 +7,15 @@ from langchain_chroma import Chroma
 from langchain.tools import tool
 from langgraph.checkpoint.memory import MemorySaver
 from deepagents import create_deep_agent
+from langchain_ollama import ChatOllama
 
 load_dotenv(override=True)
 
 # Configurar USER_AGENT para evitar o warning
 os.environ.setdefault('USER_AGENT', 'CareerAgent/1.0 (Python script for job matching)')
 
-model=ChatMistralAI(model="mistral-medium-latest", api_key=os.getenv("MISTRALAI_API_KEY"))
+model = ChatOllama(model="mistral:7b-instruct")
+# model=ChatMistralAI(model="mistral-small-latest", api_key=os.getenv("MISTRALAI_API_KEY"))
 embedder=MistralAIEmbeddings(model="mistral-embed", api_key=os.getenv("MISTRALAI_API_KEY"))
 
 # Documents préparation
@@ -172,17 +174,20 @@ multi_agent = create_deep_agent(
         "\n\nPrésente ensuite le résultat final avec: "
         "\n- Le score de match "
         "\n- La lettre de motivation "
-    )
+    ),
+    # memory=None,
+    middlewares=[],
 )
 
 # Test avec l'URL
-url_offre = "https://www.welcometothejungle.com/fr/companies/datascientest/jobs/data-analyst-intelligence-artificielle-alternance-h-f_puteaux"
+if __name__ == "__main__":
+    url_offre = "https://www.welcometothejungle.com/fr/companies/datascientest/jobs/data-analyst-intelligence-artificielle-alternance-h-f_puteaux"
 
-result = multi_agent.invoke(
-    {"messages":[{
-        "role": "user",
-        "content": f"Analyse l'offre d'emploi sur ce site: {url_offre}. Compare avec le CV dans la base de données et rédige une lettre de motivation."
-    }]}
-)
+    result = multi_agent.invoke(
+        {"messages":[{
+            "role": "user",
+            "content": f"Analyse l'offre d'emploi sur ce site: {url_offre}. Compare avec le CV dans la base de données et rédige une lettre de motivation."
+        }]}
+    )
 
-print(result)
+    print(result["messages"][-1].content)
