@@ -14,8 +14,8 @@ load_dotenv(override=True)
 # Configurar USER_AGENT para evitar o warning
 os.environ.setdefault('USER_AGENT', 'CareerAgent/1.0 (Python script for job matching)')
 
-model = ChatOllama(model="mistral:7b-instruct")
-# model=ChatMistralAI(model="mistral-small-latest", api_key=os.getenv("MISTRALAI_API_KEY"))
+#model = ChatOllama(model="mistral:7b-instruct")
+model=ChatMistralAI(model="mistral-small-latest", api_key=os.getenv("MISTRALAI_API_KEY"))
 embedder=MistralAIEmbeddings(model="mistral-embed", api_key=os.getenv("MISTRALAI_API_KEY"))
 
 # Documents préparation
