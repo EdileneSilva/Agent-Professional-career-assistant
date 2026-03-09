@@ -73,8 +73,7 @@ Agent-Professional-career-assistant/
 ## ⚙️ Prerequisites
 
 - Python 3.10+
-- [Ollama](https://ollama.ai/) installed and running locally
-- A [MistralAI](https://console.mistral.ai/) API key (for embeddings)
+- A [MistralAI](https://console.mistral.ai/) API key (for embeddings and chat model)
 - The `mistral:7b-instruct` model pulled in Ollama:
 
 ```bash
